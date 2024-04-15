@@ -36,7 +36,9 @@ app.get("/blocking", async (req, res) => {
 
   try {
     const thread_results = await Promise.all(workerPromises);
+
     const total = thread_results.reduce((acc, val) => acc + parseFloat(val), 0);
+
     res.status(200).send(total.toString());
   } catch (error) {
     res.status(500).send("Internal Server Error");
