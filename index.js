@@ -2,7 +2,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const { Worker } = require("worker_threads");
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -17,7 +17,6 @@ app.get("/blocking", (req, res) => {
   for (let i = 0; i < 20_000_000_000; i++) {
     count++;
   }
-  console.log(count);
   res.status(200).send(`<h1>This page is blocking ${count}</h1>`);
 });
 
