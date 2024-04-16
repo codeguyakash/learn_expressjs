@@ -1,7 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const { Worker } = require("worker_threads");
 const app = express();
+
 const PORT = process.env.PORT || 5001;
 
 app.use(express.urlencoded({ extended: true }));
@@ -15,6 +15,7 @@ app.get("/non-blocking/", (req, res) => {
 app.get("/blocking", (req, res) => {
   let count = 0;
   for (let i = 0; i < 20_000_000_000; i++) {
+    // for (let i = 0; i < 20; i++) {
     count++;
   }
   res.status(200).send(`<h1>This page is blocking ${count}</h1>`);
@@ -35,5 +36,7 @@ const userRouter = require("./routes/user.routes");
 app.use("/api/v1", userRouter);
 
 app.listen(PORT, () => {
-  console.log("Server Running on", PORT);
+  console.debug("[Server Running]", PORT);
 });
+
+// npx loadtest -n 1200 -c 400 -k http://localhost:5001/endpoint

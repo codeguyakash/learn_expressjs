@@ -1,10 +1,9 @@
 async function user(req, res) {
-  let data = req.body;
-  let cookie = req.cookies;
-  res
-    .status(200)
-    .cookie("accessToken", "accessToken", "options")
-    .send({ data, cookie });
+  let username = { username: "@codeguyakash" };
+  return res
+    .status(201)
+    .cookie("accessToken", "eywheqweiqweqwieuqwoueqp")
+    .send(username);
 }
 
 module.exports = { user };

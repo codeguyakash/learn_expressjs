@@ -22,29 +22,24 @@ function createWorker() {
     });
   });
 }
-
 app.get("/non-blocking/", (req, res) => {
   res.status(200).send(`<h1>This page is non-blocking</h1>`);
 });
-
 app.get("/blocking", async (req, res) => {
   const workerPromises = [];
-
   for (let i = 0; i < THREAD_COUNT; i++) {
     workerPromises.push(createWorker());
   }
-
   try {
     const thread_results = await Promise.all(workerPromises);
-
     const total = thread_results.reduce((acc, val) => acc + parseFloat(val), 0);
-
     res.status(200).send(total.toString());
   } catch (error) {
     res.status(500).send("Internal Server Error");
   }
 });
 const userRouter = require("./routes/user.routes");
+const { fchmod, lstat } = require("fs");
 app.use("/api/v1", userRouter);
 
 app.listen(PORT, () => {
